@@ -1,18 +1,18 @@
 <?php
 ob_start();
 session_start();
-include_once("../page/inc/header.php");
-include_once("../page/inc/sidebar.php");
-include_once("../page/inc/topbar.php");
-require_once("../fonction/categorie.php"); //inclure la page qui contient la Table categorie de notre BD
-require_once("../fonction/article.php");
-require_once("../fonction/employe.php");
-require_once("../fonction/service.php");
-require_once("../fonction/role.php");
-require_once("../fonction/conge.php");
-require_once("../fonction/passerCommande.php");
-require_once("../page/message.php");
-require_once("../connectBD.php");
+include_once("page/inc/header.php");
+include_once("page/inc/sidebar.php");
+include_once("page/inc/topbar.php");
+require_once("fonction/categorie.php"); //inclure la page qui contient la Table categorie de notre BD
+require_once("fonction/article.php");
+require_once("fonction/employe.php");
+require_once("fonction/service.php");
+require_once("fonction/role.php");
+require_once("fonction/conge.php");
+require_once("fonction/passerCommande.php");
+require_once("page/message.php");
+require_once("connectBD.php");
 $listeRole = getRole();
 $listeService = getService();
 ?>
