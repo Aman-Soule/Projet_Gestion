@@ -1,37 +1,24 @@
+# Utiliser l'image officielle PHP avec Apache
 FROM php:8.2-apache
 
-# Installer les dépendances système
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    && rm -rf /var/lib/apt/lists/*
+# Activer les extensions PHP nécessaires (exemple : mysqli et pdo_mysql pour MySQL)
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Installer les extensions PHP nécessaires
-RUN docker-php-ext-install \
-    pdo \
-    pdo_pgsql \
-    pgsql \
-    zip \
-    opcache
-
-# Activer les modules Apache
-RUN a2enmod rewrite headers
-
-# Copier l'application
+# Copier ton projet dans le répertoire attendu par Apache
 COPY . /var/www/html/
 
-# Configurer PHP pour l'environnement de production
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-# Définir les permissions
+# Donner les bons droits à Apache pour lire les fichiers
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage \
-    && chmod -R 755 /var/www/html/cache
+    && chmod -R 755 /var/www/html
 
-WORKDIR /var/www/html/
+# Activer le module Apache rewrite (utile pour les frameworks type Laravel, Symfony)
+RUN a2enmod rewrite
 
+# Définir le répertoire de travail
+WORKDIR /var/www/html
+
+# Exposer le port 80
 EXPOSE 80
 
+# Lancer Apache en mode foreground
 CMD ["apache2-foreground"]
